@@ -40,7 +40,7 @@ public class LoginScreen : MonoBehaviour {
 		if (emailInput.text == "" || passwordInput.text == "")
 		{
 			Debug.LogError ("NO EMAIL OR PASSWORD INPUT");
-			return;
+			yield return new WaitForSeconds(0f);
 		}
 
 		WWWForm form = new WWWForm ();
