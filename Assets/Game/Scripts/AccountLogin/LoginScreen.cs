@@ -35,16 +35,36 @@ public class LoginScreen : MonoBehaviour {
 
 	private IEnumerator SignUp()
 	{
+		Debug.Log ("SIGN UP BUTTON CLICKED");
+
 		if (emailInput.text == "" || passwordInput.text == "")
 		{
 			Debug.LogError ("NO EMAIL OR PASSWORD INPUT");
+			return;
 		}
 
-		// yield return new should wait for a return from your database
-		// use that variable instead of waitforseconds
-		yield return new WaitForSeconds (0.5f);
+		WWWForm form = new WWWForm ();
+		form.AddField ("email", emailInput.text);
+		form.AddField ("password", passwordInput.text);
+		
+		WWW createAccountWWW = new WWW (createAccountURL, form);
 
-		Debug.Log ("SIGN UP BUTTON CLICKED");
+		yield return createAccountWWW;
+
+		if (createAccountWWW.error != null)
+		{
+			Debug.LogError("Cannot connect to Account Creation");
+		}
+
+		else
+		{
+			string createAccountReturn = createAccountWWW.text;
+
+			if(createAccountReturn == "Success")
+			{
+				Debug.Log ("SUCCESS! Account cteated.");
+			}
+		}
 	}
 
 	private IEnumerator LogIn()
