@@ -11,7 +11,7 @@ public class LoginScreen : MonoBehaviour {
 	[SerializeField] private InputField passwordInput;
 
 	private string createAccountURL = "http://piidz.x10host.com/UnityTestLogin/CreateAccountT.php";
-	private string loginURL = "";
+	private string loginURL = "http://piidz.x10host.com/UnityTestLogin/LoginAccountT.php";
 
 	// Use this for initialization
 	void Start () {
@@ -37,12 +37,6 @@ public class LoginScreen : MonoBehaviour {
 	{
 		Debug.Log ("SIGN UP BUTTON CLICKED");
 
-//		if (userInput.text == "" || passwordInput.text == "")
-//		{
-//			Debug.LogError ("NO EMAIL OR PASSWORD INPUT");
-//			yield return new WaitForSeconds(0f);
-//		}
-
 		WWWForm form = new WWWForm ();
 		form.AddField ("user", userInput.text);
 		form.AddField ("password", passwordInput.text);
@@ -62,22 +56,46 @@ public class LoginScreen : MonoBehaviour {
 			Debug.LogError (createAccountReturn);
 			if(createAccountReturn == "Success")
 			{
-				Debug.Log ("SUCCESS! Account created.");
+				Debug.LogError ("SUCCESS! Account created.");
 			}
 		}
 	}
 
 	private IEnumerator LogIn()
 	{
-		if (userInput.text == "" || passwordInput.text == "")
+		Debug.Log ("Attempting to Login");
+		WWWForm form = new WWWForm ();
+		form.AddField ("user", userInput.text);
+		form.AddField ("password", passwordInput.text);
+
+		WWW loginAccountWWW = new WWW (loginURL, form);
+
+		yield return loginAccountWWW;
+
+		if(loginAccountWWW.error != null)
 		{
-			Debug.LogError ("NO EMAIL OR PASSWORD INPUT");
+			Debug.LogError ("Cannot log in.");
 		}
 
-		// yield return new should wait for a return from your database
-		// use that variable instead of waitforseconds
-		yield return new WaitForSeconds (0.5f);
+		else
+		{
+			string loginReturn = loginAccountWWW.text;
 
-		Debug.Log ("SIGN IN BUTTON CLICKED");
+			string[] logTextSplit = loginReturn.Split(':');
+
+			if(logTextSplit[0] == userInput.text)
+			{
+				if(logTextSplit[1] == "Success")
+				{
+					Debug.LogError("Log in successful.");
+				}
+			}
+
+			else
+			{
+				Debug.LogError("User or password does not exist.");
+			}
+		}
+
 	}
 }
