@@ -1,31 +1,31 @@
 <?php
-$email = $_REQUEST["email"];
+$user = $_REQUEST["user"];
 $password = $_REQUEST["password"];
 
 //PHP ONLY
-$Hostname = "";
-$DBName = "";
-$User = "";
-$PasswordP = "";
+$Hostname = "localhost";
+$DBName = "piidzx10_TestUserDB";
+$User = "piidzx10_piidz";
+$PasswordP = "1234";
 
-mysql_connect($Hostname, $User, $PasswordP) or die("Can't connect to DataBase");
-mysql_select_db($DBName) or die("Can't Connect to DataBase");
+$mysql_link = mysqli_connect($Hostname, $User, $PasswordP, $DBName) or die("Can't connect to DataBase");
+mysqli_select_db($mysql_link, $DBName) or die("Can't Connect to DataBase");
 
-if (!$email || !$PasswordP)
+if (!$user || !$password)
 {
 	echo "Empty!";
 }
 
 else
 {
-	$SQL = "SELECT * FROM Accounts WHERE email = '" . $email . "'";
-	$Result = @mysql_query($SQL) or die("DATABASE ERROR");
-	$Total = mysql_num_rows($Result);
+	$SQL = "SELECT * FROM Accounts WHERE user = '" . $user . "'";
+	$Result = mysqli_query($mysql_link, $SQL) or die("DATABASE ERROR");
+	$Total = mysqli_num_rows($Result);
 	
 	if($Total == 0)
 	{
-		$insert = "INSERT INTO 'Accounts' ('email', 'password') VALUES('" . $email . "', MD5('" . $password . "'))";
-		$SQL1 = mysql_query($insert);
+		$insert = "INSERT INTO `Accounts`(`user`, `password`) VALUES ('" . $user . "', MD5('" . $password . "'))";
+		$SQL1 = mysqli_query($mysql_link, $insert) or die("DATABASE ERROR");
 		echo "Success";
 	}
 	
@@ -35,5 +35,5 @@ else
 	}
 }
 
-mysql_close();
+mysqli_close($mysql_link);
 ?>

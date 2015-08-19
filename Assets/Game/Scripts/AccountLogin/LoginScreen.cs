@@ -7,10 +7,10 @@ public class LoginScreen : MonoBehaviour {
 	public static string EMAIL_STRING = "";
 	public static string PASSWORD_STRING = "";
 
-	[SerializeField] private InputField emailInput;
+	[SerializeField] private InputField userInput;
 	[SerializeField] private InputField passwordInput;
 
-	private string createAccountURL = "";
+	private string createAccountURL = "http://piidz.x10host.com/UnityTestLogin/CreateAccountT.php";
 	private string loginURL = "";
 
 	// Use this for initialization
@@ -37,14 +37,14 @@ public class LoginScreen : MonoBehaviour {
 	{
 		Debug.Log ("SIGN UP BUTTON CLICKED");
 
-		if (emailInput.text == "" || passwordInput.text == "")
-		{
-			Debug.LogError ("NO EMAIL OR PASSWORD INPUT");
-			yield return new WaitForSeconds(0f);
-		}
+//		if (userInput.text == "" || passwordInput.text == "")
+//		{
+//			Debug.LogError ("NO EMAIL OR PASSWORD INPUT");
+//			yield return new WaitForSeconds(0f);
+//		}
 
 		WWWForm form = new WWWForm ();
-		form.AddField ("email", emailInput.text);
+		form.AddField ("user", userInput.text);
 		form.AddField ("password", passwordInput.text);
 		
 		WWW createAccountWWW = new WWW (createAccountURL, form);
@@ -59,17 +59,17 @@ public class LoginScreen : MonoBehaviour {
 		else
 		{
 			string createAccountReturn = createAccountWWW.text;
-
+			Debug.LogError (createAccountReturn);
 			if(createAccountReturn == "Success")
 			{
-				Debug.Log ("SUCCESS! Account cteated.");
+				Debug.Log ("SUCCESS! Account created.");
 			}
 		}
 	}
 
 	private IEnumerator LogIn()
 	{
-		if (emailInput.text == "" || passwordInput.text == "")
+		if (userInput.text == "" || passwordInput.text == "")
 		{
 			Debug.LogError ("NO EMAIL OR PASSWORD INPUT");
 		}
