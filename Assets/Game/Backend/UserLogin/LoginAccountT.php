@@ -5,6 +5,8 @@
  * @copyright 2015
  */
 
+//require_once 'Connect.php';
+
 //PHP ONLY
 $Hostname = "localhost";
 $DBName = "piidzx10_TestUserDB";
@@ -13,6 +15,8 @@ $PasswordP = "1234";
 
 $mysql_link = mysqli_connect($Hostname, $User, $PasswordP, $DBName) or die("Can't connect to DataBase");
 mysqli_select_db($mysql_link, $DBName) or die("Can't Connect to DataBase");
+//connect();
+
 
 $user = $_REQUEST["user"];
 $password = $_REQUEST["password"];

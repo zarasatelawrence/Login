@@ -53,7 +53,6 @@ public class LoginScreen : MonoBehaviour {
 		else
 		{
 			string createAccountReturn = createAccountWWW.text;
-			Debug.LogError (createAccountReturn);
 			if(createAccountReturn == "Success")
 			{
 				Debug.LogError ("SUCCESS! Account created.");

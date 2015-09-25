@@ -1,7 +1,10 @@
 <?php
+//require_once 'Connect.php';
+
 $user = $_REQUEST["user"];
 $password = $_REQUEST["password"];
 
+//connect();
 //PHP ONLY
 $Hostname = "localhost";
 $DBName = "piidzx10_TestUserDB";
